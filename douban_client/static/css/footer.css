@@ -1,0 +1,21 @@
+.hometitle {
+    font-size: 24px;
+    color: orange;
+    margin-left: 50px;
+    margin-bottom: 10px;
+    float: left;
+    text-decoration: underline;
+}
+
+.links ul { overflow: hidden }
+.links ul li { line-height: 24px; margin: 5px 10px 10px 50px; display: block; float: left }
+.links ul a { font-size: 18px; }
+.links ul a:hover { text-decoration: underline; color: orange; }
+
+footer { width: 100%; background: #333; color: #a5a4a4; text-align: center; padding: 20px 0; clear: both; }
+footer a { color: #a5a4a4 }
+
+.cd-top {
+    overflow: hidden;
+    float: right;
+}

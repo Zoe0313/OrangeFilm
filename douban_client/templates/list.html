@@ -1,0 +1,286 @@
+<!doctype html>
+{% load static %}
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	    <link rel="shortcut icon" href="{% static 'images/bitbug_favicon.ico' %}">
+        <title>橙子电影网</title>
+        <link rel="stylesheet" href="{% static 'css/base.css' %}" type="text/css">
+        <link rel="stylesheet" href="{% static 'css/list.css' %}" type="text/css">
+        <link rel="stylesheet" href="{% static 'css/footer.css' %}" type="text/css">
+        <script src="/static/js/jquery.min.js" type="text/javascript"></script>
+        <script src="/static/js/jquery.easyfader.min.js"></script>
+        <script src="/static/js/scrollReveal.js"></script>
+        <style>
+            #top .search-nav{
+                overflow:hidden;
+            }
+            .logo,.middle,#top ul{
+                float:left;
+            }
+            .logo{
+                width:168px;
+                border-radius:10px;
+            }
+            .middle{
+                width:380px;
+                position: relative;
+                margin-left:120px;
+                margin-top:3px;
+            }
+            .middle input{
+                /*设置元素盒模型的计算方式，
+                border-box表示元素设置的width/height指定的是包含边框在内的区域大小*/
+                box-sizing: border-box;
+                width:380px;
+                height:36px;
+                border: 1px solid #999;
+                border-radius: 18px;
+                background: #f5f5f5;
+                padding-left:20px;
+                padding-right:40px;
+            }
+            .middle img{
+                width:36px;
+                height:36px;
+                position:absolute;
+                right:0;
+                top:0;
+            }
+            #top ul{
+                float:right;
+                margin: 10px 0;
+            }
+            #top li{
+                float:left;
+                line-height: 20px;
+                margin-left:10px;
+            }
+            #top li img{
+                vertical-align: middle;
+            }
+            /* 1.2导航 */
+            .nav{
+                margin: 30px 0;
+            }
+            .nav a{
+                font-size: 16px;
+                margin-right: 50px;
+                display:inline-block;
+                width:92px;
+                height:30px;
+                font-size:20px;
+                /*水平居中*/
+                text-align:center;
+                /*一行文本在当前行中永远是垂直居中，
+                可以手动设置行高跟元素高度保持一致，
+                实现一行文本在元素中的垂直居中效果*/
+                line-height:30px;
+            }
+            .nav a:hover{
+                color:#fff;
+                background:orange;
+            }
+            body {
+                height: 100%;
+                background-image: url("{% static 'images/bg1.jpeg' %}");
+                background-repeat: repeat;
+                background-size: 100%;
+                z-index: -100;
+            }
+            #container {
+                background-color: rgba(240, 240, 240, 0.8);
+                height: 100%;
+            }
+        </style>
+    </head>
+    <body>
+    <div id="container">
+        <div id="top">
+            <div class="search-nav">
+                <!--左边logo-->
+                <img class="logo" src="{% static 'images/header/logo.jpg' %}">
+                <!--中间搜索框-->
+                <div class="middle">
+                    <input type="text" placeholder="请输入您要搜索的内容">
+                    <img src="{% static 'images/header/search.png' %}">
+                </div>
+                <!--右边列表链接-->
+                <ul>
+                    <li>
+                        <a href=""><img src="{% static 'images/header/care.png' %}"></a>
+                        <b>|</b>
+                    </li>
+                    <li>
+                        <a href="">帮助</a>
+                        <b>|</b>
+                    </li>
+                    <li id="userinfo">
+                        <a href="/login">登录/注册</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="nav">
+                <a href="/">首页</a>
+                <a href="/film/1/0">热门电影</a>
+                <a href="/film/2/0">即将上映</a>
+                <a href="/film/3/0">经典电影</a>
+            </div>
+        </div>
+
+        <div id="main">
+            <h2>
+                {{filmtype}}
+            </h2>
+            <div class="info">
+                <div class="content"></div>
+            </div>
+
+            <div class="page">
+            </div>
+            <br>
+            <br>
+        </div>
+
+        <footer id="footer">
+            <div class="links">
+                <h2 class="hometitle">友情链接</h2>
+                <ul>
+                    <li><a href="https://movie.douban.com/" target="_blank">豆瓣电影</a></li>
+                    <li><a href="https://maoyan.com/" target="_blank">猫眼电影</a></li>
+                    <li><a href="http://www.mtime.com/" target="_blank">时光网</a></li>
+                </ul>
+            </div>
+            <div class="links">
+                <h2 class="hometitle">关注我们</h2>
+                <ul>
+                    <li class="wechat"><span>WeChat: </span>xiaoxia313</li>
+                    <li class="qq"><span>QQ: </span>543378112</li>
+                    <li class="email"><span>Email: </span>liuxiaoxia2125@126.com</li>
+                </ul>
+            </div>
+            <br>
+            <p>Design by <a href="https://github.com/Zoe0313" target="_blank">小侠龙旋风</a> 京ICP备123878345号</p>
+            <a href="#" class="cd-top">Top</a>
+        </footer>
+
+    </div>
+    </body>
+    <script>
+        window.onload = function(){
+            //登录状态
+            var header_body = '';
+            var nickname = window.localStorage.getItem('dnblog_nickname')
+            if (nickname){
+                header_body += '<a href="javascript:loginOut()">'+ nickname +' 注销</a>';
+            }else{
+                header_body += '<a href="/login">登录/注册</a>';
+            }
+            var userinfo = document.getElementById('userinfo');
+            userinfo.innerHTML = header_body;
+        };
+
+        function loginOut(){
+            if(confirm("确定登出吗？")){
+                window.localStorage.removeItem('dnblog_token');
+                window.localStorage.removeItem('dnblog_email');
+                window.localStorage.removeItem('dnblog_nickname');
+                window.location.href= '/';
+            }
+        }
+
+        var ntype = {{ntype}}
+        var npage = {{npage}};
+        var get_url = "http://127.0.0.1:8000/v1/films/" + ntype + "/" + npage;
+        //var get_url = "http://139.155.144.42:8000/v1/films/" + ntype + "/" + npage;
+
+        $.ajax({
+            // 请求方式
+            type:"get",
+            // url
+            url: get_url,
+            success:function (result) {
+                if (200 == result.code){
+                    var films = result.data.films;
+                    var total = result.data.total;
+                    setupList(films,ntype);
+                    refreshPage(ntype,npage,total);
+                }else{
+                    alert(result.error)
+                }
+            }
+        });
+
+        function setupList(films,ntype){
+            var filmSize = films.length;
+            console.log(filmSize);
+            var html_body = ""
+            if(filmSize == 0){
+                html_body += '<h1>空空如也</h1>';
+            } else {
+                for (var t=0; t<filmSize; t++) {
+                    var detail_url = films[t].detail_url;
+                    var img_url = '/static/images/movies/'+films[t].img_url;
+                    var name = films[t].name;
+                    var duration = films[t].duration;
+                    var release_time = films[t].release_time;
+                    var score = films[t].score;
+                    var stars = films[t].stars;
+                    var introduce = films[t].introduce;
+
+                    html_body += '<div class="item" data-scroll-reveal="enter bottom over 1s">';
+
+                    html_body += '<div class="gname">';
+                    html_body += '<a href="' + detail_url + '"><img src="' + img_url + '"></a>';
+                    html_body += '<a href="' + detail_url + '"><p>' + name + '</p></a>';
+                    if (ntype==2) {
+                        html_body += '<p>' + score + ' 人想看</p>';
+                    }else{
+                        html_body += '<p>评分：' + score + '</p>';
+                    }
+                    html_body += '<p>时长：' + duration + '</p>';
+                    html_body += '<p>' + release_time + '</p>';
+                    html_body += '</div>';
+
+                    html_body += '<div class="ginfo">';
+                    html_body += '<p>' + stars + '</p>';
+                    html_body += '<p>' + introduce + '</p>';
+                    html_body += '</div>';
+
+                    html_body += '</div>';
+                }
+            }
+            $(".content").html(html_body);
+        }
+        function refreshPage(ntype,npage,total) {
+            var html_body = '<br>';
+            var pageSize = Math.floor(total/10);
+            if (total%10>0) {
+                pageSize++;
+            }
+
+            if (npage>0) {
+                var prev_page = npage-1;
+                html_body += '<a href="/film/' + ntype + '/' + prev_page + '"><</a>';
+                html_body += '<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>'
+            }
+
+            for (var i=0; i<pageSize; i++) {
+                var show_page = i+1;
+                if (npage==i) {
+                    html_body += '<strong><u>' + show_page + '</u></strong>';
+                }else{
+                    html_body += '<a href="/film/' + ntype + '/' + i + '">' + show_page + '</a>';
+                }
+                html_body += '<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>';
+            }
+
+            if (npage+1<pageSize) {
+                var next_page = npage+1;
+                html_body += '<a href="/film/' + ntype + '/' + next_page + '">></a>';
+            }
+            $(".page").html(html_body);
+        }
+    </script>
+</html>

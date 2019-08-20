@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}" type="text/css">
+    <script src="/static/js/jquery.min.js" type="text/javascript"></script>
+    <title>橙子电影网</title>
+</head>
+<body>
+    <div class="bg">
+        <img src="{% static 'images/login.jpg' %}" alt="">
+    </div>
+
+    <div id="top">
+        <div class="search-nav">
+            <!--左边logo-->
+            <img class="logo" src="{% static 'images/header/logo.jpg' %}">
+        </div>
+    </div>
+
+        <div id="main">
+            <div class="content">
+                <p>
+                    登录
+                    <a href="/register">新用户注册</a>
+                </p>
+                <div class="text">
+                    <input type="text" name="email" placeholder="请输入邮箱" class="signIn-email">
+                    <img src="{% static 'images/login/mail.png' %}">
+                </div>
+                <div class="text">
+                    <input type="password" name="upwd" placeholder="请输入密码" class="signIn-password">
+                    <img src="{% static 'images/login/password.png' %}">
+                </div>
+                <input class="login" type="button" value="登录" onclick="login()">
+            </div>
+        </div>
+    <div id="bottom"></div>
+    </body>
+
+    <script>
+        function login(){
+        var email = $('.signIn-email').val()
+        var password = $('.signIn-password').val()
+        var post_data = {'email':email, 'password':password }
+
+        $.ajax({
+        // 请求方式
+        type:"post",
+        // contentType
+        contentType:"application/json",
+        // dataType
+        dataType:"json",
+        // url
+        url:"http://127.0.0.1:8000/v1/token",
+        //url:"http://139.155.144.42:8000/v1/token",
+        // 把JS的对象或数组序列化一个json 字符串
+        data:JSON.stringify(post_data),
+        // result 为请求的返回结果对象
+        success:function (result) {
+            if (200 == result.code){
+                window.localStorage.setItem('dnblog_token', result.data.token)
+                window.localStorage.setItem('dnblog_nickname', result.nickname)
+                window.localStorage.setItem('dnblog_email', result.email)
+                alert('登录成功')
+                //取本会话的上一跳
+                refer_url = document.referrer
+                //如果是项目内部的请求，回跳到上一步
+                if (refer_url.search('127.0.0.1') != -1){
+                    window.location = refer_url;
+                    console.log('refer_url=',refer_url)
+                }else{
+                    window.location =  '/';
+                    console.log('/')
+                }
+            }else{
+                alert(result.error)
+            }
+        }
+
+    });
+    }
+    </script>
+
+</html>
