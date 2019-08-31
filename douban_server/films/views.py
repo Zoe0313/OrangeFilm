@@ -8,8 +8,6 @@ from tools.login_decorator import login_check, get_user_by_request
 from films.models import Film
 from user.models import UserProfile
 
-
-
 def films(request, stype, spage):
     if request.method != 'GET':
         result = {'code': 404, 'error': 'not get'}
@@ -31,19 +29,27 @@ def films(request, stype, spage):
 def make_topics_res(film_list,offset):
     res = {'code':200, 'data':{}}
     films_res = []
+    names_set = set()
 
     for film in film_list:
+        if names_set.__contains__(film.name):
+            continue
+        names_set.add(film.name)
+
         d = {}
         d['name'] = film.name
         d['type'] = film.stype
         d['duration'] = film.duration
         d['score'] = film.score
-        d['stars'] = film.stars[:40]
+        d['directors'] = film.directors
+        d['actors'] = film.actors[:40]
+        if len(film.actors)>40:
+            d['actors'] += '......'
         d['img_url'] = film.name + film.img_url[-4:]
         d['detail_url'] = film.detail_url
         d['release_time'] = film.release_time
-        d['introduce'] = film.content[:220]
-        if len(film.content)>220:
+        d['introduce'] = film.content[:190]
+        if len(film.content)>190:
             d['introduce'] += '......'
         films_res.append(d)
 
@@ -54,6 +60,17 @@ def make_topics_res(film_list,offset):
     res['data']['films'] = films_res
     res['data']['total'] = count
     return res
+
+def search(request):
+    if request.method != 'GET':
+        result = {'code': 404, 'error': 'not get'}
+        return JsonResponse(result)
+
+    key = request.GET.get('key')
+    print(key)
+    films = Film.objects.filter(name__contains=key)
+    result = make_topics_res(films, 0)
+    return JsonResponse(result)
 
 # @login_check('POST','DELETE')
 # def films(request, author_id=None):
