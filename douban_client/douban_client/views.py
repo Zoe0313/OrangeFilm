@@ -21,8 +21,11 @@ def films(request,ntype,npage=None):
         filmtype = '经典电影'
     return render(request, 'list.html',locals())
 
-# def detail(request,film_id):
-#     return render(request, 'detail.html',locals())
+def search(request):
+    key = request.GET.get('key')
+    print(key)
+    filmtype = '搜索结果'
+    return render(request, 'search.html', locals())
 
 def notexist(request):
     return render(request, '404.html')

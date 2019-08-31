@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+	<head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="shortcut icon" href="{% static 'images/bitbug_favicon.ico' %}">
+		<link rel="stylesheet" href="{% static 'css/base.css' %}" type="text/css">
+		<link rel="stylesheet" href="{% static 'css/header.css' %}" type="text/css">
+        <link rel="stylesheet" href="{% static 'css/footer.css' %}" type="text/css">
+        <link rel="stylesheet" href="{% static 'css/background.css' %}" type="text/css">
+		<script src="/static/js/jquery.min.js" type="text/javascript"></script>
+		<script src="/static/js/jquery.easyfader.min.js" type="text/javascript"></script>
+		{% block title %}
+		<title>橙子电影网</title>
+		{% endblock %}
+	</head>
+	<body>
+		<!-- 整体 -->
+		<div id="container">
+			<!-- 1.顶部 -->
+			<div id="top">
+				<div class="search-nav">
+					<!--左边logo-->
+					<img class="logo" src="{% static 'images/header/logo.jpg' %}">
+					<!--中间搜索框-->
+					<div class="middle">
+						<input type="text" placeholder="请输入您要搜索的电影名">
+						<a href="javascript:onSearch()"><img src="{% static 'images/header/search.png' %}"></a>
+					</div>
+					<!--右边列表链接-->
+					<ul>
+						<li>
+							<a href="javascript:void(0)"><img src="{% static 'images/header/care.png' %}"></a>
+							<b>|</b>
+						</li>
+						<li>
+							<a href="javascript:void(0)">帮助</a>
+							<b>|</b>
+						</li>
+						<li id="userinfo">
+							<a href="/login">登录/注册</a>
+						</li>
+					</ul>
+				</div>
+				<div class="nav">
+					<a href="/">首页</a>
+					<a href="/film/1/0">热门电影</a>
+					<a href="/film/2/0">即将上映</a>
+					<a href="/film/3/0">经典电影</a>
+				</div>
+			</div>
+
+			<!-- 2.中间主体部分 -->
+			{% block center_content %}
+			<h1>内容</h1>
+			{% endblock center_content %}
+
+			<!-- 3.底部 -->
+			<footer>
+				<div class="links">
+					<h2 class="hometitle">友情链接</h2>
+					<ul>
+						<li><a href="https://movie.douban.com/" target="_blank">豆瓣电影</a></li>
+						<li><a href="https://maoyan.com/" target="_blank">猫眼电影</a></li>
+						<li><a href="http://www.mtime.com/" target="_blank">时光网</a></li>
+					</ul>
+				</div>
+				<div class="links">
+					<h2 class="hometitle">关注我们</h2>
+					<ul>
+						<li class="wechat"><span>WeChat: </span>xiaoxia313</li>
+						<li class="qq"><span>QQ: </span>543378112</li>
+						<li class="email"><span>Email: </span>liuxiaoxia2125@126.com</li>
+					</ul>
+				</div>
+				<br>
+				<p style="margin-top:20px;">Design by <a href="https://github.com/Zoe0313" target="_blank">小侠龙旋风</a> 京ICP备123878345号</p>
+				<a href="#" class="cd-top">Top</a>
+			</footer>
+		</div>
+
+		{% block bottom %}
+		<script></script>
+		{% endblock %}
+	</body>
+</html>

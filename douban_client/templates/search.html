@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>橙子电影网 - {{filmtype}}</title>
+    <link rel="stylesheet" href="{% static 'css/list.css' %}" type="text/css">
+    <script src="/static/js/scrollReveal.js" type="text/javascript"></script>
+    <script src="/static/js/common.js" type="text/javascript"></script>
+{% endblock %}
+
+{% block center_content %}
+    <div id="main">
+        <h2>{{filmtype}}</h2>
+        <div class="info">
+            <div class="content"></div>
+        </div>
+        <div class="page"></div>
+        <br><br>
+    </div>
+{% endblock %}
+
+{% block bottom %}
+    <script>
+        var keyword = "{{key}}";
+        showSearchList(keyword);
+    </script>
+{% endblock %}

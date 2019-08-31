@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^login', views.login,name='login'),
     url(r'^register', views.register,name='register'),
     url(r'^film/(?P<ntype>\d+)/(?P<npage>\d+)', views.films, name='film'),
+    url(r'^film/search', views.search, name='search'),
     #url(r'^detail/(?P<film_id>\d+)$', views.detail, name='detail'),
     url(r'.*', views.notexist, name='404'),
 ]
